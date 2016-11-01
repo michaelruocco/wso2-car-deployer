@@ -17,6 +17,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.axis2.client.Stub;
 
@@ -49,11 +51,20 @@ public class DefaultCarDeployer implements CarDeployer {
             ApplicationAdminStub applicationAdminStub = new ApplicationAdminStub(serverUrl + "services/ApplicationAdmin");
             configureStub(applicationAdminStub);
             ApplicationMetadata metadata = applicationAdminStub.getAppData(applicationName);
-            System.out.println(metadata.getAppName());
             for (ArtifactDeploymentStatus status : metadata.getArtifactsDeploymentStatus()) {
                 System.out.println(status.getArtifactName() + " " + status.getDeploymentStatus());
             }
             return true;
+        } catch (ApplicationAdminExceptionException | RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<String> getAllApplications() {
+        try {
+            ApplicationAdminStub applicationAdminStub = new ApplicationAdminStub(serverUrl + "services/ApplicationAdmin");
+            configureStub(applicationAdminStub);
+            return Arrays.asList(applicationAdminStub.listAllApplications());
         } catch (ApplicationAdminExceptionException | RemoteException e) {
             throw new RuntimeException(e);
         }
