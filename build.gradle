@@ -1,0 +1,49 @@
+group 'uk.co.mruoc.wso2'
+version '1.0.0'
+
+buildscript {
+    dependencies {
+        repositories {
+            mavenCentral()
+        }
+        classpath 'de.undercouch:gradle-download-task:2.1.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'de.undercouch.download'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'http://maven.wso2.org/nexus/content/groups/wso2-public/' }
+}
+
+dependencies {
+    compile group: 'org.wso2.carbon', name: 'org.wso2.carbon.authenticator.stub', version: '4.2.0'
+    compile group: 'org.wso2.developerstudio', name: 'org.wso2.developerstudio.eclipse.carbonserver.base', version: '3.6.0'
+    compile group: 'org.wso2.carbon', name: 'org.wso2.carbon.application.mgt.stub', version: '4.2.0'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task pullCar << {
+    def artifact = 'json-validator-mediator-config-local'
+    def version = '1.0.0-SNAPSHOT'
+    def url = buildArtifactoryCarUrl('middleware-releases', 'uk.co.tpplc.middleware.json-validator-mediator', artifact, version)
+
+    println 'downloading car from url ' + url
+
+    download {
+        src url
+        dest 'test/' + artifact + '-' + version + '.car'
+    }
+}
+
+def buildArtifactoryCarUrl(String repository, String group, String artifact, String version) {
+    def groupPath = group.replaceAll('\\.', '\\/')
+    return 'http://artifactory.shared.devops.dev01.aws.travisperkins.com:8080/artifactory/' + repository + '/' + groupPath + '/' + artifact + '/' + version + '/' + artifact + '-' + version + '.car'
+}
