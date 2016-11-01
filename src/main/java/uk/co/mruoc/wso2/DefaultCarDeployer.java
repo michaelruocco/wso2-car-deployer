@@ -4,6 +4,10 @@ import org.apache.axis2.context.ServiceContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
+import org.wso2.carbon.application.mgt.stub.ApplicationAdminStub;
+import org.wso2.carbon.application.mgt.stub.types.carbon.ApplicationMetadata;
+import org.wso2.carbon.application.mgt.stub.types.carbon.ArtifactDeploymentStatus;
 import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub;
@@ -14,6 +18,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
+import org.apache.axis2.client.Stub;
+
 import static org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub.*;
 
 public class DefaultCarDeployer implements CarDeployer {
@@ -21,52 +27,77 @@ public class DefaultCarDeployer implements CarDeployer {
     private static final Logger LOG = LogManager.getLogger(DefaultCarDeployer.class);
 
     private final String serverUrl;
+    private final String username;
+    private final String password;
 
-    public DefaultCarDeployer(String serverUrl) {
+    public DefaultCarDeployer(String serverUrl, String username, String password) {
         this.serverUrl = serverUrl;
+        this.username = username;
+        this.password = password;
     }
 
     public void deploy(File file) {
         try {
-            deployCApp("admin", "admin", serverUrl, file);
+            deployCApp(file);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void deployCApp(String username, String pwd, String url, File carFile) throws Exception {
-        CarbonAppUploaderStub carbonAppUploaderStub = getCarbonAppUploaderStub(username, pwd, url);
+    public boolean isDeployed(String applicationName) {
+        try {
+            ApplicationAdminStub applicationAdminStub = new ApplicationAdminStub(serverUrl + "services/ApplicationAdmin");
+            configureStub(applicationAdminStub);
+            ApplicationMetadata metadata = applicationAdminStub.getAppData(applicationName);
+            System.out.println(metadata.getAppName());
+            for (ArtifactDeploymentStatus status : metadata.getArtifactsDeploymentStatus()) {
+                System.out.println(status.getArtifactName() + " " + status.getDeploymentStatus());
+            }
+            return true;
+        } catch (ApplicationAdminExceptionException | RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void deployCApp(File carFile) throws Exception {
+        CarbonAppUploaderStub carbonAppUploaderStub = getCarbonAppUploaderStub();
         UploadedFileItem uploadedFileItem = new UploadedFileItem();
-        DataHandler param=new DataHandler(carFile.toURI().toURL());
+        DataHandler param = new DataHandler(carFile.toURI().toURL());
         uploadedFileItem.setDataHandler(param);
         uploadedFileItem.setFileName(carFile.getName());
         uploadedFileItem.setFileType("jar");
-        UploadedFileItem[] fileItems=new UploadedFileItem[]{uploadedFileItem};
+        UploadedFileItem[] fileItems = new UploadedFileItem[]{uploadedFileItem};
         LOG.info("uploading " + carFile.getName() + " to " + serverUrl + "...");
         carbonAppUploaderStub.uploadApp(fileItems);
     }
 
-    private CarbonAppUploaderStub getCarbonAppUploaderStub(String username, String pwd, String url) throws RemoteException,
-            MalformedURLException, LoginAuthenticationExceptionException {
-        String sessionCookie = createSessionCookie(url, username, pwd);
-        CarbonAppUploaderStub carbonAppUploaderStub = new CarbonAppUploaderStub(serverUrl + "/services/CarbonAppUploader");
-        carbonAppUploaderStub._getServiceClient().getOptions().setManageSession(true);
-        carbonAppUploaderStub._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
+    private CarbonAppUploaderStub getCarbonAppUploaderStub() throws RemoteException {
+        CarbonAppUploaderStub carbonAppUploaderStub = new CarbonAppUploaderStub(serverUrl + "services/CarbonAppUploader");
+        configureStub(carbonAppUploaderStub);
         return carbonAppUploaderStub;
     }
 
-    private String createSessionCookie(String serverURL, String username, String pwd) throws RemoteException, MalformedURLException, LoginAuthenticationExceptionException {
-        LOG.info("creating session cookie using server url " + serverURL);
-        URL url = new URL(serverURL);
-        AuthenticationAdminStub authenticationStub = new AuthenticationAdminStub(serverURL+ "/services/AuthenticationAdmin");
-        authenticationStub._getServiceClient().getOptions().setManageSession(true);
-        if (authenticationStub.login(username, pwd, url.getHost())) {
+    private String createSessionCookie() {
+        try {
+            LOG.info("creating session cookie using server url " + serverUrl);
+            URL url = new URL(serverUrl);
+            AuthenticationAdminStub authenticationStub = new AuthenticationAdminStub(serverUrl + "services/AuthenticationAdmin");
+            authenticationStub._getServiceClient().getOptions().setManageSession(true);
+            if (!authenticationStub.login(username, password, url.getHost()))
+                throw new RuntimeException("could not log in to " + url.toExternalForm() + " with username " + username + " and password " + password);
             ServiceContext serviceContext = authenticationStub._getServiceClient().getLastOperationContext().getServiceContext();
             String sessionCookie = (String) serviceContext.getProperty(HTTPConstants.COOKIE_STRING);
-            LOG.info("authentication to " + serverURL + " successful.");
+            LOG.info("authentication to " + serverUrl + " successful.");
             return sessionCookie;
+        } catch (MalformedURLException | RemoteException | LoginAuthenticationExceptionException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+    }
+
+    private void configureStub(Stub stub) {
+        String sessionCookie = createSessionCookie();
+        stub._getServiceClient().getOptions().setManageSession(true);
+        stub._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
     }
 
 }

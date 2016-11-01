@@ -6,4 +6,6 @@ public interface CarDeployer {
 
     void deploy(File file);
 
+    boolean isDeployed(String applicationName);
+
 }
