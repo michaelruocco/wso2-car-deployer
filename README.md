@@ -1,4 +1,4 @@
-# Car Deployer
+# WSO2 Car Deployer
 
 This project is to take a look at how to programatically deploy car files
 into WSO2. It leans heavily on libraries used in this project
