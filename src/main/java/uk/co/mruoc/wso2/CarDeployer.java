@@ -5,9 +5,13 @@ import java.util.List;
 
 public interface CarDeployer {
 
+    void deployQuietly(File file);
+
     void deploy(File file);
 
-    boolean isDeployed(String applicationName);
+    void deployIfNotDeployed(File file);
+
+    boolean isDeployed(File file);
 
     List<String> getAllApplications();
 

@@ -7,18 +7,31 @@ public class Test {
 
     public static void main(String[] args) {
         String serverUrl = "https://192.168.99.100:9444/";
-        String username = "admin";
-        String password = "admin";
 
-        CarDeployer deployer = new DefaultCarDeployer(serverUrl, username, password);
+        String sessionCookie = new SessionCookieBuilder()
+                .setServerUrl(serverUrl)
+                .setUsername("admin")
+                .setPassword("admin")
+                .build();
 
-        List<String> applications = deployer.getAllApplications();
-        applications.forEach(System.out::println);
+        StubFactory stubFactory = new StubFactory(serverUrl, sessionCookie);
+        CarDeployer deployer = new DefaultCarDeployer(stubFactory);
 
-        //File file = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
+        //List<String> faultyApplications = deployer.getAllFaultyApplications();
+        //faultyApplications.forEach(a -> System.out.println("faulty " + a));
 
-        //deployer.deploy(file);
+        //List<String> applications = deployer.getAllApplications();
+        //applications.forEach(a -> System.out.println("applications " + a));
 
-        deployer.isDeployed("json-validator-mediator-config-local_1.0.0-SNAPSHOT");
+        File jsonValidator = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
+        File sharedResources = new File("test/shared-resources-0.0.13.car");
+
+        deployer.deployIfNotDeployed(jsonValidator);
+        deployer.deployIfNotDeployed(sharedResources);
+
+        //deployer.isDeployed("json-validator-mediator-config-local_1.0.0-SNAPSHOT");
+        //System.out.println("deployed=" + deployer.isDeployed("shared-resources-0.0.13.car"));
+        System.out.println("deployed=" + deployer.isDeployed(jsonValidator));
+        System.out.println("deployed=" + deployer.isDeployed(sharedResources));
     }
 }
