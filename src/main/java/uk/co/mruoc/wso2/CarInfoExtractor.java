@@ -33,13 +33,14 @@ public class CarInfoExtractor {
     }
 
     private String extractArtifactsXmlAsString(File file) {
-        String filePath = file.getPath();
+        String filePath = file.getAbsolutePath();
         try {
             ZipFile zipFile = new ZipFile(file.getAbsolutePath());
             Enumeration zipEntries = zipFile.entries();
             while (zipEntries.hasMoreElements()) {
                 ZipEntry entry = (ZipEntry) zipEntries.nextElement();
-                if (entry.getName().equals("artifacts.xml")) {
+                System.out.println(entry.getName());
+                if (entry.getName().contains("artifacts.xml")) {
                     try (InputStream is = zipFile.getInputStream(entry)) {
                         return IOUtils.toString(is, Charset.defaultCharset());
                     }
