@@ -10,7 +10,15 @@ public class CarInfo {
         this.version = version;
     }
 
-    public String getApplicationName() {
+    public String getName() {
+        return name;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getFullName() {
         return name + "_" + version;
     }
 

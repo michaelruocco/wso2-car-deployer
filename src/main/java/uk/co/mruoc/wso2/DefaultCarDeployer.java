@@ -51,7 +51,7 @@ public class DefaultCarDeployer implements CarDeployer {
     public boolean isDeployed(File file) {
         CarInfo carInfo = extractCarInfo(file);
         List<String> deployedApplications = getAllApplications();
-        return deployedApplications.contains(carInfo.getApplicationName());
+        return deployedApplications.contains(carInfo.getFullName());
     }
 
     @Override

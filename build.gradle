@@ -6,7 +6,6 @@ group 'uk.co.mruoc.wso2'
 version '1.0.0'
 
 apply plugin: 'java'
-apply plugin: 'de.undercouch.download'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -29,6 +28,7 @@ dependencies {
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.5.2'
 
     wso2 group: 'uk.co.tpplc.middleware.json-validator-mediator', name: 'json-validator-mediator-config-local', version: '1.0.0-SNAPSHOT', ext: 'car'
 }
