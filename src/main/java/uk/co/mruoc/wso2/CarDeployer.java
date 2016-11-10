@@ -28,8 +28,8 @@ public class CarDeployer {
         try {
             LOG.info("deploying car " + file.getName());
             CarbonAppUploaderStub carbonAppUploader = stubFactory.buildCarbonAppUploaderStub();
-            UploadedFileItem item = uploadedFileItemConverter.toUploadedFileItem(file);
-            carbonAppUploader.uploadApp(toArray(item));
+            UploadedFileItem[] items = uploadedFileItemConverter.toUploadedFileItem(file);
+            carbonAppUploader.uploadApp(items);
 
             RetriableDeploymentChecker checker = new RetriableDeploymentChecker(stubFactory, 20000);
             if (!checker.isDeployed(file))
@@ -56,10 +56,6 @@ public class CarDeployer {
 
     private CarInfo extractCarInfo(File file) {
         return carInfoExtractor.extract(file);
-    }
-
-    private UploadedFileItem[] toArray(UploadedFileItem item) {
-        return new UploadedFileItem[] { item };
     }
 
 }

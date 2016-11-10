@@ -6,10 +6,19 @@ import javax.activation.DataHandler;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UploadedFileItemConverter {
 
-    public UploadedFileItem toUploadedFileItem(File file) {
+    public UploadedFileItem[] toUploadedFileItem(File... files) {
+        List<UploadedFileItem> items = new ArrayList<>();
+        for (File file : files)
+            items.add(toUploadedFileItem(file));
+        return items.toArray(new UploadedFileItem[items.size()]);
+    }
+
+    private UploadedFileItem toUploadedFileItem(File file) {
         try {
             UploadedFileItem item = new UploadedFileItem();
             URI uri = file.toURI();

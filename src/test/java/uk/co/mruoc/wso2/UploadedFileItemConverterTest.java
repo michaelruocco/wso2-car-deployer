@@ -19,24 +19,34 @@ public class UploadedFileItemConverterTest {
 
     @Test
     public void shouldSetFileName() {
-        UploadedFileItem item = converter.toUploadedFileItem(validFile);
+        UploadedFileItem[] items = converter.toUploadedFileItem(validFile);
+        UploadedFileItem item = items[0];
 
         assertThat(item.getFileName()).isEqualTo(validFile.getName());
     }
 
     @Test
     public void shouldSetFileType() {
-        UploadedFileItem item = converter.toUploadedFileItem(validFile);
+        UploadedFileItem[] items = converter.toUploadedFileItem(validFile);
+        UploadedFileItem item = items[0];
 
         assertThat(item.getFileType()).isEqualTo("jar");
     }
 
     @Test
     public void shouldSetDataHandlerWithFileUrl() throws IOException {
-        UploadedFileItem item = converter.toUploadedFileItem(validFile);
+        UploadedFileItem[] items = converter.toUploadedFileItem(validFile);
+        UploadedFileItem item = items[0];
 
         URL url = toUrl(item);
         assertThat(url.getFile()).isEqualTo(validFile.getAbsolutePath());
+    }
+
+    @Test
+    public void shouldReturnMultipleItemsForMultipleFiles() throws IOException {
+        UploadedFileItem[] items = converter.toUploadedFileItem(validFile, validFile);
+
+        assertThat(items.length).isEqualTo(2);
     }
 
     private URL toUrl(UploadedFileItem item) {
