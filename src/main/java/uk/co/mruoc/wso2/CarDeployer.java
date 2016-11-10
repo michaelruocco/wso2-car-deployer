@@ -31,7 +31,7 @@ public class CarDeployer {
             UploadedFileItem item = uploadedFileItemConverter.toUploadedFileItem(file);
             carbonAppUploader.uploadApp(toArray(item));
 
-            RetriableDeploymentChecker checker = new RetriableDeploymentChecker(new DeploymentChecker(new FileConverter(stubFactory)), 20000);
+            RetriableDeploymentChecker checker = new RetriableDeploymentChecker(stubFactory, 20000);
             if (!checker.isDeployed(file))
                 throw new DeployCarFailedException("timed out trying to verify car deployment for " + file.getAbsolutePath());
         } catch (RemoteException e) {
@@ -46,7 +46,7 @@ public class CarDeployer {
             ApplicationAdminStub applicationAdmin = stubFactory.buildApplicationAdminStub();
             applicationAdmin.deleteApplication(carInfo.getFullName());
 
-            RetriableDeploymentChecker checker = new RetriableDeploymentChecker(new DeploymentChecker(new FileConverter(stubFactory)), 20000);
+            RetriableDeploymentChecker checker = new RetriableDeploymentChecker(stubFactory, 20000);
             if (!checker.isUndeployed(file))
                 throw new UndeployCarFailedException("timed out trying to verify car undeployment for " + file.getAbsolutePath());
         } catch (ApplicationAdminExceptionException | RemoteException e) {

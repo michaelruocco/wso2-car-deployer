@@ -18,6 +18,10 @@ public class RetriableDeploymentChecker {
 
     private int slept;
 
+    public RetriableDeploymentChecker(StubFactory stubFactory, int timeout) {
+        this(new DeploymentChecker(new FileConverter(stubFactory)), timeout);
+    }
+
     public RetriableDeploymentChecker(DeploymentChecker deploymentChecker, int timeout) {
         this.deploymentChecker = deploymentChecker;
         this.timeout = timeout;
