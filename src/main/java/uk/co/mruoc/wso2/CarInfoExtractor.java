@@ -39,7 +39,6 @@ public class CarInfoExtractor {
             Enumeration zipEntries = zipFile.entries();
             while (zipEntries.hasMoreElements()) {
                 ZipEntry entry = (ZipEntry) zipEntries.nextElement();
-                System.out.println(entry.getName());
                 if (entry.getName().contains("artifacts.xml")) {
                     try (InputStream is = zipFile.getInputStream(entry)) {
                         return IOUtils.toString(is, Charset.defaultCharset());

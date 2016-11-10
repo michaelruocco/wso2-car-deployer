@@ -9,14 +9,18 @@ import java.net.URI;
 
 public class UploadedFileItemConverter {
 
-    public UploadedFileItem toUploadedFileItem(File file) throws MalformedURLException {
-        UploadedFileItem item = new UploadedFileItem();
-        URI uri = file.toURI();
-        DataHandler param = new DataHandler(uri.toURL());
-        item.setDataHandler(param);
-        item.setFileName(file.getName());
-        item.setFileType("jar");
-        return item;
+    public UploadedFileItem toUploadedFileItem(File file) {
+        try {
+            UploadedFileItem item = new UploadedFileItem();
+            URI uri = file.toURI();
+            DataHandler param = new DataHandler(uri.toURL());
+            item.setDataHandler(param);
+            item.setFileName(file.getName());
+            item.setFileType("jar");
+            return item;
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
 }
