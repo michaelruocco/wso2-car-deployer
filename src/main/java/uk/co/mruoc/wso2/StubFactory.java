@@ -7,8 +7,8 @@ import java.rmi.RemoteException;
 
 public interface StubFactory {
 
-    CarbonAppUploaderStub buildCarbonAppUploaderStub() throws RemoteException;
+    CarbonAppUploaderStub buildCarbonAppUploaderStub();
 
-    ApplicationAdminStub buildApplicationAdminStub() throws RemoteException;
-    
+    ApplicationAdminStub buildApplicationAdminStub();
+
 }

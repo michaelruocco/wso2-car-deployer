@@ -21,17 +21,25 @@ public class DefaultStubFactory implements StubFactory {
     }
 
     @Override
-    public CarbonAppUploaderStub buildCarbonAppUploaderStub() throws RemoteException {
-        CarbonAppUploaderStub carbonAppUploaderStub = new CarbonAppUploaderStub(serverUrl + "services/CarbonAppUploader");
-        configureStubWithCookie(carbonAppUploaderStub);
-        return carbonAppUploaderStub;
+    public CarbonAppUploaderStub buildCarbonAppUploaderStub() {
+        try {
+            CarbonAppUploaderStub carbonAppUploaderStub = new CarbonAppUploaderStub(serverUrl + "services/CarbonAppUploader");
+            configureStubWithCookie(carbonAppUploaderStub);
+            return carbonAppUploaderStub;
+        } catch (RemoteException e) {
+            throw new CreateStubException(e);
+        }
     }
 
     @Override
-    public ApplicationAdminStub buildApplicationAdminStub() throws RemoteException {
-        ApplicationAdminStub applicationAdminStub = new ApplicationAdminStub(serverUrl + "services/ApplicationAdmin");
-        configureStubWithCookie(applicationAdminStub);
-        return applicationAdminStub;
+    public ApplicationAdminStub buildApplicationAdminStub() {
+        try {
+            ApplicationAdminStub applicationAdminStub = new ApplicationAdminStub(serverUrl + "services/ApplicationAdmin");
+            configureStubWithCookie(applicationAdminStub);
+            return applicationAdminStub;
+        } catch (RemoteException e) {
+            throw new CreateStubException(e);
+        }
     }
 
     private void configureStubWithCookie(Stub stub) {
