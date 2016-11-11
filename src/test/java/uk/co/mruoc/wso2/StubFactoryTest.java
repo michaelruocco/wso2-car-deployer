@@ -14,23 +14,23 @@ public class StubFactoryTest {
     private final StubFactory stubFactory = new DefaultStubFactory(SERVER_URL);
 
     @Test
-    public void shouldCreateApplicationAdminStub() {
-        assertThat(stubFactory.createApplicationAdminStub()).isInstanceOf(ApplicationAdminStub.class);
-    }
-
-    @Test
     public void shouldCreateAuthenticationAdminStub() {
         assertThat(stubFactory.createAuthenticationAdminStub()).isInstanceOf(AuthenticationAdminStub.class);
     }
 
     @Test
-    public void shouldCreateCarbonAppUploaderStub() {
-        assertThat(stubFactory.createCarbonAppUploaderStub()).isInstanceOf(CarbonAppUploaderStub.class);
+    public void shouldCreateApplicationAdminStub() {
+        assertThat(stubFactory.createApplicationAdminStub("")).isInstanceOf(ApplicationAdminStub.class);
     }
 
     @Test
-    public void shouldReturnServerUrl() {
-        assertThat(stubFactory.getServerUrl()).isEqualTo(SERVER_URL);
+    public void shouldCreateCarbonAppUploaderStub() {
+        assertThat(stubFactory.createCarbonAppUploaderStub("")).isInstanceOf(CarbonAppUploaderStub.class);
+    }
+
+    @Test
+    public void shouldReturnHost() {
+        assertThat(stubFactory.getHost()).isEqualTo("localhost");
     }
 
 }

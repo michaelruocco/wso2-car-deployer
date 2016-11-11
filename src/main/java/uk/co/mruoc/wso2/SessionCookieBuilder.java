@@ -17,13 +17,13 @@ public class SessionCookieBuilder {
     private static final Logger LOG = LogManager.getLogger(DefaultStubFactory.class);
 
     private AuthenticationAdminStub stub;
-    private String serverUrl;
+    private String host;
     private String username;
     private String password;
 
     public SessionCookieBuilder setStubFactory(StubFactory stubFactory) {
         this.stub = stubFactory.createAuthenticationAdminStub();
-        this.serverUrl = stubFactory.getServerUrl();
+        this.host = stubFactory.getHost();
         return this;
     }
 
@@ -39,14 +39,14 @@ public class SessionCookieBuilder {
 
     public String build() {
         if (!login())
-            throw new CreateSessionCookieFailedException("login against " + serverUrl + " with username " + username + " using password failed");
+            throw new CreateSessionCookieFailedException("login against " + host + " with username " + username + " using password failed");
         return extractSessionCookie();
     }
 
     private boolean login() {
         try {
-            LOG.info("attempting login against " + serverUrl + " with username " + username + " using password");
-            return stub.login(username, password, serverUrl);
+            LOG.info("attempting login against " + host + " with username " + username + " using password");
+            return stub.login(username, password, host);
         } catch (RemoteException | LoginAuthenticationExceptionException e) {
             throw new CreateSessionCookieFailedException(e);
         }

@@ -8,12 +8,12 @@ import java.rmi.RemoteException;
 
 public interface StubFactory {
 
-    CarbonAppUploaderStub createCarbonAppUploaderStub();
+    CarbonAppUploaderStub createCarbonAppUploaderStub(String sessionCookie);
 
-    ApplicationAdminStub createApplicationAdminStub();
+    ApplicationAdminStub createApplicationAdminStub(String sessionCookie);
 
     AuthenticationAdminStub createAuthenticationAdminStub();
 
-    String getServerUrl();
+    String getHost();
 
 }

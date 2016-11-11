@@ -2,6 +2,8 @@ package uk.co.mruoc.wso2;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
+import org.wso2.carbon.application.mgt.stub.ApplicationAdminStub;
 
 import java.io.File;
 
@@ -18,8 +20,8 @@ public class RetriableDeploymentChecker {
 
     private int slept;
 
-    public RetriableDeploymentChecker(StubFactory stubFactory, int timeout) {
-        this(new DeploymentChecker(new FileConverter(stubFactory)), timeout);
+    public RetriableDeploymentChecker(ApplicationAdmin stub, int timeout) {
+        this(new DeploymentChecker(new FileConverter(stub)), timeout);
     }
 
     public RetriableDeploymentChecker(DeploymentChecker deploymentChecker, int timeout) {
