@@ -32,14 +32,7 @@ public class Test {
 
     private static StubFactory createStubFactory() {
         String serverUrl = "https://192.168.99.100:9444/";
-
-        String sessionCookie = new SessionCookieBuilder()
-                .setServerUrl(serverUrl)
-                .setUsername("admin")
-                .setPassword("admin")
-                .build();
-
-        return new DefaultStubFactory(serverUrl, sessionCookie);
+        return new DefaultStubFactory(serverUrl);
     }
 
 }

@@ -27,7 +27,7 @@ public class CarDeployer {
     public void deploy(File file) {
         try {
             LOG.info("deploying car " + file.getName());
-            CarbonAppUploaderStub carbonAppUploader = stubFactory.buildCarbonAppUploaderStub();
+            CarbonAppUploaderStub carbonAppUploader = stubFactory.createCarbonAppUploaderStub();
             UploadedFileItem[] items = uploadedFileItemConverter.toUploadedFileItem(file);
             carbonAppUploader.uploadApp(items);
 
@@ -43,7 +43,7 @@ public class CarDeployer {
         try {
             LOG.info("undeploying car " + file.getName());
             CarInfo carInfo = extractCarInfo(file);
-            ApplicationAdminStub applicationAdmin = stubFactory.buildApplicationAdminStub();
+            ApplicationAdminStub applicationAdmin = stubFactory.createApplicationAdminStub();
             applicationAdmin.deleteApplication(carInfo.getFullName());
 
             RetriableDeploymentChecker checker = new RetriableDeploymentChecker(stubFactory, 20000);

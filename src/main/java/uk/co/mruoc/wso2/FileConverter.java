@@ -24,7 +24,7 @@ public class FileConverter {
     public Optional<ApplicationMetadata> toApplicationMetadata(File file) {
         try {
             CarInfo carInfo = carInfoExtractor.extract(file);
-            ApplicationAdminStub applicationAdminStub = stubFactory.buildApplicationAdminStub();
+            ApplicationAdminStub applicationAdminStub = stubFactory.createApplicationAdminStub();
             return Optional.ofNullable(applicationAdminStub.getAppData(carInfo.getFullName()));
         } catch (ApplicationAdminExceptionException | RemoteException e) {
             LOG.debug("could not get application metadata " + file.getAbsolutePath(), e);
