@@ -5,11 +5,10 @@ import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAp
 
 import java.rmi.RemoteException;
 
-/**
- * Created by michaelruocco on 11/11/2016.
- */
 public interface StubFactory {
+
     CarbonAppUploaderStub buildCarbonAppUploaderStub() throws RemoteException;
 
     ApplicationAdminStub buildApplicationAdminStub() throws RemoteException;
+    
 }
