@@ -39,7 +39,7 @@ public class Test {
                 .setPassword("admin")
                 .build();
 
-        return new StubFactory(serverUrl, sessionCookie);
+        return new DefaultStubFactory(serverUrl, sessionCookie);
     }
 
 }

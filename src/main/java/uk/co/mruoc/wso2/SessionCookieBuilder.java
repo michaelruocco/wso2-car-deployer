@@ -16,7 +16,7 @@ import static org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING;
 
 public class SessionCookieBuilder {
 
-    private static final Logger LOG = LogManager.getLogger(StubFactory.class);
+    private static final Logger LOG = LogManager.getLogger(DefaultStubFactory.class);
 
     private String serverUrl;
     private String username;
