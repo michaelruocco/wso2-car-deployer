@@ -30,6 +30,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.5.2'
     testCompile group: 'eu.codearte.catch-exception', name: 'catch-exception', version: '1.4.4'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
 
     wso2 group: 'uk.co.tpplc.middleware.json-validator-mediator', name: 'json-validator-mediator-config-local', version: '1.0.0-SNAPSHOT', ext: 'car'
 }
