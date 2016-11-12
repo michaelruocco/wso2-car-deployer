@@ -11,7 +11,7 @@ public class StubFactoryTest {
 
     private static final String SERVER_URL = "http://localhost:8080";
 
-    private final StubFactory stubFactory = new DefaultStubFactory(SERVER_URL);
+    private final StubFactory stubFactory = new StubFactory(SERVER_URL);
 
     @Test
     public void shouldCreateAuthenticationAdminStub() {

@@ -48,7 +48,7 @@ public class Test {
 
     private static StubFactory createStubFactory() {
         String serverUrl = "https://192.168.99.100:9444/";
-        return new DefaultStubFactory(serverUrl);
+        return new StubFactory(serverUrl);
     }
 
 }
