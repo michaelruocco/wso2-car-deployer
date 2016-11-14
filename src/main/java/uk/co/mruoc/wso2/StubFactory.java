@@ -14,16 +14,16 @@ public class StubFactory {
 
     private static final Logger LOG = LogManager.getLogger(StubFactory.class);
 
-    private final UrlConverter urlConverter = new UrlConverter();
     private final SessionCookieExtractor sessionCookieExtractor = new SessionCookieExtractor();
-
     private final Authenticator authenticator;
     private final String serverUrl;
     private final AuthenticationAdminStub authenticationAdminStub;
+
     private String sessionCookie;
 
     public StubFactory(Config config) {
         this.serverUrl = config.getUrl();
+        UrlConverter urlConverter = new UrlConverter();
         this.authenticator = new AuthenticatorBuilder()
                 .setHost(urlConverter.toHost(serverUrl))
                 .setUsername(config.getUsername())

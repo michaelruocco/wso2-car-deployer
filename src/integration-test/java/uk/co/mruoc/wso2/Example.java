@@ -19,7 +19,7 @@ public class Example {
 
         StubFactory stubFactory = new StubFactory(config);
         CarDeployer deployer = new CarDeployer(stubFactory);
-        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
+        DeploymentChecker deploymentChecker = new SimpleDeploymentChecker(stubFactory);
 
         File file = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
 

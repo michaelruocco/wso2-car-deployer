@@ -1,6 +1,5 @@
 package uk.co.mruoc.wso2;
 
-import org.wso2.carbon.application.mgt.stub.ApplicationAdminStub;
 import org.wso2.carbon.application.mgt.stub.types.carbon.ApplicationMetadata;
 import org.wso2.carbon.application.mgt.stub.types.carbon.ArtifactDeploymentStatus;
 
@@ -10,14 +9,6 @@ import java.util.Optional;
 public class DeploymentChecker {
 
     private final FileConverter fileConverter;
-
-    public DeploymentChecker(StubFactory stubFactory) {
-        this(stubFactory.createApplicationAdminStub());
-    }
-
-    public DeploymentChecker(ApplicationAdminStub stub) {
-        this(new FileConverter(stub));
-    }
 
     public DeploymentChecker(FileConverter fileConverter) {
         this.fileConverter = fileConverter;

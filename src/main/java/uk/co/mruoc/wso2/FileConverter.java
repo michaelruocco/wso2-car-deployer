@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class FileConverter {
 
-    private static final Logger LOG = LogManager.getLogger(DeploymentChecker.class);
+    private static final Logger LOG = LogManager.getLogger(FileConverter.class);
 
     private final CarInfoExtractor carInfoExtractor;
     private final ApplicationAdmin stub;
