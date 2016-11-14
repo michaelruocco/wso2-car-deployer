@@ -18,7 +18,7 @@ public class Example {
                 .build();
 
         StubFactory stubFactory = new StubFactory(config);
-        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
+        RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(stubFactory);
         File file = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
 
         boolean deployed = deploymentChecker.isDeployed(file);

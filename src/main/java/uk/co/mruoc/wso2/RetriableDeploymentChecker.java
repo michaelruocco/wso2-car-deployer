@@ -10,6 +10,7 @@ public class RetriableDeploymentChecker {
 
     private static final Logger LOG = LogManager.getLogger(RetriableDeploymentChecker.class);
 
+    private static final int DEFAULT_TIMEOUT = 20000;
     private static final int DELAY = 1000;
     private static final String LOG_MESSAGE = "checking %s deployed=%s timeout expired=%s slept=%d timeout=%d";
 
@@ -18,6 +19,14 @@ public class RetriableDeploymentChecker {
     private final int timeout;
 
     private int slept;
+
+    public RetriableDeploymentChecker(StubFactory stubFactory) {
+        this(stubFactory.createApplicationAdminStub(), DEFAULT_TIMEOUT);
+    }
+
+    public RetriableDeploymentChecker(StubFactory stubFactory, int timeout) {
+        this(stubFactory.createApplicationAdminStub(), timeout);
+    }
 
     public RetriableDeploymentChecker(ApplicationAdmin stub, int timeout) {
         this(new DeploymentChecker(new FileConverter(stub)), timeout);

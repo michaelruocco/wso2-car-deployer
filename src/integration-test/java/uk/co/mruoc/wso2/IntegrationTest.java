@@ -12,7 +12,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class IntegrationTest {
 
     private static final int PORT = 9443;
-    private static final int CONTAINER_START_TIMEOUT = 50000;
+    private static final int CONTAINER_START_TIMEOUT = 60000;
 
     private final File carFile = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
     private final Wso2ContainerStartupChecker startupChecker = new Wso2ContainerStartupChecker(CONTAINER_START_TIMEOUT);
@@ -25,7 +25,7 @@ public class IntegrationTest {
     @Test
     public void deploymentCheckerShouldReturnFalseIfCarIsNotDeployed() {
         startupChecker.waitForContainerToStart();
-        DeploymentChecker deploymentChecker = new DeploymentChecker(createStubFactory());
+        RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(createStubFactory());
 
         boolean deployed = deploymentChecker.isDeployed(carFile);
 
@@ -38,7 +38,7 @@ public class IntegrationTest {
 
         StubFactory stubFactory = createStubFactory();
         CarDeployer carDeployer = new CarDeployer(stubFactory);
-        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
+        RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(stubFactory);
 
         carDeployer.deploy(carFile);
         boolean deployed = deploymentChecker.isDeployed(carFile);
@@ -52,12 +52,14 @@ public class IntegrationTest {
 
         StubFactory stubFactory = createStubFactory();
         CarDeployer deployer = new CarDeployer(stubFactory);
-        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
+        RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(stubFactory);
         deployer.deploy(carFile);
+        boolean deployed = deploymentChecker.isDeployed(carFile);
+        assertThat(deployed).isTrue();
 
         CarUndeployer undeployer = new CarUndeployer(stubFactory);
         undeployer.undeploy(carFile);
-        boolean deployed = deploymentChecker.isDeployed(carFile);
+        deployed = deploymentChecker.isUndeployed(carFile);
         assertThat(deployed).isFalse();
     }
 
