@@ -19,10 +19,6 @@ public class RetriableDeploymentChecker {
 
     private int slept;
 
-    public RetriableDeploymentChecker(StubFactory stubFactory, int timeout) {
-        this(stubFactory.createApplicationAdminStub(), timeout);
-    }
-
     public RetriableDeploymentChecker(ApplicationAdmin stub, int timeout) {
         this(new DeploymentChecker(new FileConverter(stub)), timeout);
     }
