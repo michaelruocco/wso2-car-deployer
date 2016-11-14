@@ -21,6 +21,7 @@ public class CarDeployerTest {
     private final UploadedFileItemConverter converter = mock(UploadedFileItemConverter.class);
     private final CarbonAppUploaderStub stub = mock(CarbonAppUploaderStub.class);
     private final UploadedFileItem[] items = new UploadedFileItem[0];
+
     private final CarDeployer deployer = new CarDeployer(converter, stub);
 
     @Test

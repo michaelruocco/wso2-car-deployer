@@ -12,15 +12,15 @@ public class CarUndeployer {
 
     private static final Logger LOG = LogManager.getLogger(CarUndeployer.class);
 
-    private final CarInfoExtractor carInfoExtractor = new CarInfoExtractor();
-
+    private final CarInfoExtractor carInfoExtractor;
     private final ApplicationAdmin applicationAdmin;
 
     public CarUndeployer(StubFactory stubFactory) {
-        this(stubFactory.createApplicationAdminStub());
+        this(new CarInfoExtractor(), stubFactory.createApplicationAdminStub());
     }
 
-    public CarUndeployer(ApplicationAdmin applicationAdmin) {
+    public CarUndeployer(CarInfoExtractor carInfoExtractor, ApplicationAdmin applicationAdmin) {
+        this.carInfoExtractor = carInfoExtractor;
         this.applicationAdmin = applicationAdmin;
     }
 
