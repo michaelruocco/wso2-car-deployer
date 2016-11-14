@@ -13,15 +13,15 @@ public class CarDeployer {
 
     private static final Logger LOG = LogManager.getLogger(CarDeployer.class);
 
-    private final UploadedFileItemConverter uploadedFileItemConverter = new UploadedFileItemConverter();
-
+    private final UploadedFileItemConverter uploadedFileItemConverter;
     private final CarbonAppUploaderStub carbonAppUploader;
 
     public CarDeployer(StubFactory stubFactory) {
-        this(stubFactory.createCarbonAppUploaderStub());
+        this(new UploadedFileItemConverter(), stubFactory.createCarbonAppUploaderStub());
     }
 
-    public CarDeployer(CarbonAppUploaderStub carbonAppUploader) {
+    public CarDeployer(UploadedFileItemConverter uploadedFileItemConverter, CarbonAppUploaderStub carbonAppUploader) {
+        this.uploadedFileItemConverter = uploadedFileItemConverter;
         this.carbonAppUploader = carbonAppUploader;
     }
 
