@@ -4,7 +4,7 @@ import uk.co.mruoc.wso2.Config.ConfigBuilder;
 
 import java.io.File;
 
-public class Test {
+public class Example {
 
     public static void main(String[] args) {
         deployTest();
