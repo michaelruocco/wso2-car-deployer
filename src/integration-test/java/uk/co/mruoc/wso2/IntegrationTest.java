@@ -25,7 +25,7 @@ public class IntegrationTest {
     @Test
     public void deploymentCheckerShouldReturnFalseIfCarIsNotDeployed() {
         startupChecker.waitForContainerToStart();
-        DeploymentChecker deploymentChecker = new SimpleDeploymentChecker(createStubFactory());
+        DeploymentChecker deploymentChecker = new DeploymentChecker(createStubFactory());
 
         boolean deployed = deploymentChecker.isDeployed(carFile);
 
@@ -38,7 +38,7 @@ public class IntegrationTest {
 
         StubFactory stubFactory = createStubFactory();
         CarDeployer carDeployer = new CarDeployer(stubFactory);
-        DeploymentChecker deploymentChecker = new SimpleDeploymentChecker(stubFactory);
+        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
 
         carDeployer.deploy(carFile);
         boolean deployed = deploymentChecker.isDeployed(carFile);
@@ -52,7 +52,7 @@ public class IntegrationTest {
 
         StubFactory stubFactory = createStubFactory();
         CarDeployer carDeployer = new CarDeployer(stubFactory);
-        DeploymentChecker deploymentChecker = new SimpleDeploymentChecker(stubFactory);
+        DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
         carDeployer.deploy(carFile);
 
         carDeployer.undeploy(carFile);

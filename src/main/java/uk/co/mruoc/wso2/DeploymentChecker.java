@@ -10,6 +10,10 @@ public class DeploymentChecker {
 
     private final FileConverter fileConverter;
 
+    public DeploymentChecker(StubFactory stubFactory) {
+        this(new FileConverter(stubFactory.createApplicationAdminStub()));
+    }
+
     public DeploymentChecker(FileConverter fileConverter) {
         this.fileConverter = fileConverter;
     }
