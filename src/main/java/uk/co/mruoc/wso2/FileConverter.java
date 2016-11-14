@@ -4,7 +4,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
-import org.wso2.carbon.application.mgt.stub.ApplicationAdminStub;
 import org.wso2.carbon.application.mgt.stub.types.carbon.ApplicationMetadata;
 
 import java.io.File;
@@ -15,10 +14,15 @@ public class FileConverter {
 
     private static final Logger LOG = LogManager.getLogger(DeploymentChecker.class);
 
-    private final CarInfoExtractor carInfoExtractor = new CarInfoExtractor();
+    private final CarInfoExtractor carInfoExtractor;
     private final ApplicationAdmin stub;
 
     public FileConverter(ApplicationAdmin stub) {
+        this(new CarInfoExtractor(), stub);
+    }
+
+    public FileConverter(CarInfoExtractor carInfoExtractor, ApplicationAdmin stub) {
+        this.carInfoExtractor = carInfoExtractor;
         this.stub = stub;
     }
 
