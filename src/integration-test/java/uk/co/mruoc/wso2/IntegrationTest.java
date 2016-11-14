@@ -59,8 +59,8 @@ public class IntegrationTest {
 
         CarUndeployer undeployer = new CarUndeployer(stubFactory);
         undeployer.undeploy(carFile);
-        deployed = deploymentChecker.isUndeployed(carFile);
-        assertThat(deployed).isFalse();
+        boolean undeployed = deploymentChecker.isUndeployed(carFile);
+        assertThat(undeployed).isTrue();
     }
 
     @Test(expected = UndeployCarFailedException.class)
