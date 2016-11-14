@@ -6,12 +6,27 @@ group 'uk.co.mruoc.wso2'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
     wso2
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
 }
 
 repositories {
@@ -31,9 +46,26 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.5.2'
     testCompile group: 'eu.codearte.catch-exception', name: 'catch-exception', version: '1.4.4'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
+    testCompile group: 'org.testcontainers', name: 'testcontainers', version: '1.1.6'
+    testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
+    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
 
     wso2 group: 'uk.co.tpplc.middleware.json-validator-mediator', name: 'json-validator-mediator-config-local', version: '1.0.0-SNAPSHOT', ext: 'car'
 }
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
 
 task listCars << {
     configurations.wso2.each { File file -> println file.absolutePath }

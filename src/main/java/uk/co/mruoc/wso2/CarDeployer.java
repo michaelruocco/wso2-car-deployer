@@ -21,6 +21,10 @@ public class CarDeployer {
     private final CarbonAppUploaderStub carbonAppUploader;
     private final ApplicationAdmin applicationAdmin;
 
+    public CarDeployer(StubFactory stubFactory) {
+        this(stubFactory.createCarbonAppUploaderStub(), stubFactory.createApplicationAdminStub());
+    }
+
     public CarDeployer(CarbonAppUploaderStub carbonAppUploader, ApplicationAdmin applicationAdmin) {
         this.carbonAppUploader = carbonAppUploader;
         this.applicationAdmin = applicationAdmin;

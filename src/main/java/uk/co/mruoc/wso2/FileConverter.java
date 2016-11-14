@@ -27,7 +27,7 @@ public class FileConverter {
             CarInfo carInfo = carInfoExtractor.extract(file);
             return Optional.ofNullable(stub.getAppData(carInfo.getFullName()));
         } catch (ApplicationAdminExceptionException | RemoteException e) {
-            LOG.debug("could not get application metadata " + file.getAbsolutePath(), e);
+            LOG.debug("could not get application metadata from " + file.getAbsolutePath(), e);
             return Optional.empty();
         }
     }

@@ -11,6 +11,10 @@ public class DeploymentChecker {
 
     private final FileConverter fileConverter;
 
+    public DeploymentChecker(StubFactory stubFactory) {
+        this(stubFactory.createApplicationAdminStub());
+    }
+
     public DeploymentChecker(ApplicationAdminStub stub) {
         this(new FileConverter(stub));
     }
@@ -21,12 +25,10 @@ public class DeploymentChecker {
 
     public boolean isDeployed(File file) {
         Optional<ApplicationMetadata> metadata = fileConverter.toApplicationMetadata(file);
-        if (!metadata.isPresent())
-            return false;
-        return hasDeploymentStatus(metadata.get(), "Deployed");
+        return metadata.isPresent() && hasDeploymentStatus(metadata.get(), "Deployed");
     }
 
-    public boolean hasDeploymentStatus(ApplicationMetadata metadata, String requiredStatus) {
+    private boolean hasDeploymentStatus(ApplicationMetadata metadata, String requiredStatus) {
         for (ArtifactDeploymentStatus status : metadata.getArtifactsDeploymentStatus()) {
             if (matches(status, requiredStatus))
                 return true;
