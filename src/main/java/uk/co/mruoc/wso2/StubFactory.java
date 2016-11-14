@@ -41,7 +41,7 @@ public class StubFactory {
             configureWithSessionCookie(carbonAppUploaderStub, sessionCookie);
             return carbonAppUploaderStub;
         } catch (RemoteException e) {
-            throw new CreateStubException(e);
+            throw new CreateStubFailedException(e);
         }
     }
 
@@ -53,7 +53,7 @@ public class StubFactory {
             configureWithSessionCookie(applicationAdminStub, sessionCookie);
             return applicationAdminStub;
         } catch (RemoteException e) {
-            throw new CreateStubException(e);
+            throw new CreateStubFailedException(e);
         }
     }
 
@@ -68,7 +68,7 @@ public class StubFactory {
             LOG.info("creating authenticationAdminStub with url " + url);
             return new AuthenticationAdminStub(url);
         } catch (RemoteException e) {
-            throw new CreateStubException(e);
+            throw new CreateStubFailedException(e);
         }
     }
 

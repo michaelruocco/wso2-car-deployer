@@ -6,7 +6,7 @@ public class Sleeper {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
-            throw new WaitException(e);
+            throw new WaitFailedException(e);
         }
     }
 

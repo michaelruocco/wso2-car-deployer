@@ -13,7 +13,7 @@ public class SleeperTest {
 
     @Test
     public void shouldSleepForGivenDelay() {
-        int delay = 2000;
+        int delay = 500;
 
         Instant start = Instant.now();
         sleeper.sleep(delay);
