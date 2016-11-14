@@ -3,8 +3,6 @@ package uk.co.mruoc.wso2;
 import org.junit.Test;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
-import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub;
-import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub.UploadedFileItem;
 
 import java.io.File;
 import java.rmi.RemoteException;
