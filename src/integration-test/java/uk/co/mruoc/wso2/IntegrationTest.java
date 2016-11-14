@@ -51,11 +51,12 @@ public class IntegrationTest {
         startupChecker.waitForContainerToStart();
 
         StubFactory stubFactory = createStubFactory();
-        CarDeployer carDeployer = new CarDeployer(stubFactory);
+        CarDeployer deployer = new CarDeployer(stubFactory);
         DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
-        carDeployer.deploy(carFile);
+        deployer.deploy(carFile);
 
-        carDeployer.undeploy(carFile);
+        CarUndeployer undeployer = new CarUndeployer(stubFactory);
+        undeployer.undeploy(carFile);
         boolean deployed = deploymentChecker.isDeployed(carFile);
         assertThat(deployed).isFalse();
     }
@@ -65,8 +66,8 @@ public class IntegrationTest {
         startupChecker.waitForContainerToStart();
 
         StubFactory stubFactory = createStubFactory();
-        CarDeployer carDeployer = new CarDeployer(stubFactory);
-        carDeployer.undeploy(carFile);
+        CarUndeployer undeployer = new CarUndeployer(stubFactory);
+        undeployer.undeploy(carFile);
     }
 
     private StubFactory createStubFactory() {

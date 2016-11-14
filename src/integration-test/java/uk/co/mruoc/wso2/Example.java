@@ -18,21 +18,21 @@ public class Example {
                 .build();
 
         StubFactory stubFactory = new StubFactory(config);
-        CarDeployer deployer = new CarDeployer(stubFactory);
         DeploymentChecker deploymentChecker = new DeploymentChecker(stubFactory);
-
         File file = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
 
         boolean deployed = deploymentChecker.isDeployed(file);
         System.out.println("deployed " + deployed);
         if (!deployed) {
+            CarDeployer deployer = new CarDeployer(stubFactory);
             deployer.deploy(file);
             deployed = deploymentChecker.isDeployed(file);
             System.out.println("deployed " + deployed);
         }
 
         if (deployed) {
-            deployer.undeploy(file);
+            CarUndeployer undeployer = new CarUndeployer(stubFactory);
+            undeployer.undeploy(file);
             deployed = deploymentChecker.isDeployed(file);
             System.out.println("deployed " + deployed);
         }
