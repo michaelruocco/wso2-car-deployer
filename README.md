@@ -139,3 +139,17 @@ or
 ```
 gradlew clean build -x test
 ```
+
+### Running all the tests
+
+Finally to run all the integration tests you can run the command:
+
+```
+gradle clean test integrationTest
+```
+
+or
+
+```
+gradle clean build
+```
