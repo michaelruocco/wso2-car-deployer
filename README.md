@@ -145,11 +145,58 @@ gradlew clean build -x test
 Finally to run all the integration tests you can run the command:
 
 ```
-gradle clean test integrationTest
+gradlew clean test integrationTest
 ```
 
 or
 
 ```
-gradle clean build
+gradlew clean build
 ```
+
+### Running the integration tests from IDE
+
+If you are trying to run the integration tests directly in your IDE rather
+than using the gradle tasks provided then you will need to set the JVM
+argument to point at the truststore provided in the project at:
+
+```
+{projectDir}/trustore/cacerts
+```
+
+For example:
+
+```
+-Djavax.net.ssl.trustStore=/Users/michaelruocco/git/personal/wso2/car-deployer/truststore/cacerts
+```
+
+Another option would be to install the certificate provided at:
+
+```
+{projectDir}/certificates/docker-esb-4.9.0.cer
+```
+
+Into your JVM trust store. The JVM truststore can usually be found under
+your installed jre directory at:
+
+```
+{jreDir}/lib/security/cacerts
+```
+
+For example:
+
+```
+/Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/jre/lib/security/cacerts
+```
+
+To install the certificate to your trust store you will need to use the
+keytool utility. For example:
+
+```
+keytool -import -alias docker-esb-4.9.0 -file /Users/michaelruocco/git/personal/wso2/car-deployer/certificates/docker-esb-4.9.0.cer -keystore cacerts
+```
+
+If you would rather not mess around with your default trust store then it
+is recommended you use the first approach of overriding the javax.net.ssl.trustStore
+system property as it will only take effect when you are running the tests.
+
