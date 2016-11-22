@@ -1,5 +1,7 @@
 plugins {
-    id "com.jfrog.artifactory" version "4.0.0"
+    id 'com.jfrog.artifactory' version '4.0.0'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.7.1'
 }
 
 group 'uk.co.mruoc.wso2'
@@ -8,6 +10,8 @@ version '1.0.0'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -15,7 +19,6 @@ targetCompatibility = 1.8
 configurations {
     integrationTestCompile.extendsFrom testCompile
     integrationTestRuntime.extendsFrom testRuntime
-    wso2
 }
 
 sourceSets {
@@ -31,8 +34,7 @@ sourceSets {
 
 repositories {
     mavenCentral()
-    maven { url 'http://maven.wso2.org/nexus/content/groups/wso2-public/' }
-    maven { url 'http://artifactory.shared.devops.dev01.aws.travisperkins.com:8080/artifactory/middleware-snapshots' }
+    maven { url 'http://dist.wso2.org/maven2/' }
 }
 
 dependencies {
@@ -49,8 +51,6 @@ dependencies {
     testCompile group: 'org.testcontainers', name: 'testcontainers', version: '1.1.6'
     testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
-
-    wso2 group: 'uk.co.tpplc.middleware.json-validator-mediator', name: 'json-validator-mediator-config-local', version: '1.0.0-SNAPSHOT', ext: 'car'
 }
 
 task integrationTest(type: Test) {
@@ -67,7 +67,9 @@ tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
 }
 
-
-task listCars << {
-    configurations.wso2.each { File file -> println file.absolutePath }
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
