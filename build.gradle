@@ -5,14 +5,13 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.13.0'
 }
 
-group 'uk.co.mruoc.wso2'
-version '1.0.0'
-
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -72,5 +71,77 @@ jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(uploadArchives)) {
+        signing {
+            required true
+            sign configurations.archives
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                packaging 'jar'
+                name 'WSO2 Car Deployer'
+                description 'Library to abstract deploying car files into WSO2'
+                groupId 'com.github.michaelruocco'
+                artifactId 'wso2-car-deployer'
+                version '1.0.0'
+                url 'https://github.com/michaelruocco/wso2-car-deployer'
+
+                developers {
+                    developer {
+                        id 'mruoc'
+                        name 'Michael Ruocco'
+                        email 'michael.ruocco@hotmail.com'
+                    }
+                }
+
+                scm {
+                    connection 'scm:git:git@github.com/michaelruocco/wso2-car-deployer.git'
+                    developerConnection 'scm:git:git@github.com/michaelruocco/wso2-car-deployer.git'
+                    url 'git@github.com/michaelruocco/wso2-car-deployer.git'
+                }
+
+                licenses {
+                    license {
+                        name 'BSD License'
+                        url 'http://www.opensource.org/licenses/bsd-license.php'
+                        distribution 'repo'
+                    }
+                }
+            }
+        }
     }
 }
