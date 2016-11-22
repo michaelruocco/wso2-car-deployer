@@ -109,6 +109,17 @@ The integration tests also take around 2 or 3 minutes to run, this is
 why they have been split out from the unit tests so each set of tests
 can be run independently.
 
+## Checking dependencies
+
+You can check the current dependencies used by the project to see whether
+or not they are currently up to date by running the following command:
+
+```
+gradlew dependencyUpdates
+```
+
+This will give a list of any outdated dependencies for the project.
+
 ### Running the unit tests
 
 To run just the unit tests you can run the command:
