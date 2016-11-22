@@ -1,5 +1,4 @@
 plugins {
-    id 'com.jfrog.artifactory' version '4.4.9'
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.7.1'
     id 'com.github.ben-manes.versions' version '0.13.0'
