@@ -2,14 +2,26 @@
 
 [![Build Status](https://travis-ci.org/michaelruocco/wso2-car-deployer.svg?branch=master)](https://travis-ci.org/michaelruocco/wso2-car-deployer)
 [![Coverage Status](https://coveralls.io/repos/github/michaelruocco/wso2-car-deployer/badge.svg?branch=master)](https://coveralls.io/github/michaelruocco/wso2-car-deployer?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d95bf1520b54d71ac9a25b373db5032)](https://www.codacy.com/app/michael-ruocco/wso2-car-deployer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/wso2-car-deployer&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer
 )
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d95bf1520b54d71ac9a25b373db5032)](https://www.codacy.com/app/michael-ruocco/wso2-car-deployer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/wso2-car-deployer&amp;utm_campaign=Badge_Grade)
+
 
 This library provides an abstraction layer to try and make it easy to
 programatically deploy and undeploy car files into WSO2 components using
 libraries published by WSO2. It also provides the ability to check that
 files have been deployed and undeployed successfully.
+
+## Usage
+
+To use the library from a program you will need to add a dependency to your project. In
+gradle you would do this by adding the following to your build.gradle file:
+
+```
+dependencies {
+    classpath 'com.github.michaelruocco:wso2-car-deployer:1.0.0'
+}
+```
 
 ## Deploying Car Files
 
@@ -105,6 +117,15 @@ retriableDeploymentChecker.isDeployed(file);
 retriableDeploymentChecker.isUndeployed(file);
 ```
 
+## Checking dependencies
+
+You can check the current dependencies used by the project to see whether
+or not they are currently up to date by running the following command:
+
+```
+gradlew dependencyUpdates
+```
+
 ## Running the tests
 
 This project is covered by both unit tests and integration tests. The
@@ -114,15 +135,6 @@ daemon running on your machine for them to work.
 The integration tests also take around 2 or 3 minutes to run, this is
 why they have been split out from the unit tests so each set of tests
 can be run independently.
-
-## Checking dependencies
-
-You can check the current dependencies used by the project to see whether
-or not they are currently up to date by running the following command:
-
-```
-gradlew dependencyUpdates
-```
 
 ### Running the unit tests
 
