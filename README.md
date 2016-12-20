@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/michaelruocco/wso2-car-deployer.svg?branch=master)](https://travis-ci.org/michaelruocco/wso2-car-deployer)
 [![Coverage Status](https://coveralls.io/repos/github/michaelruocco/wso2-car-deployer/badge.svg?branch=master)](https://coveralls.io/github/michaelruocco/wso2-car-deployer?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer
-)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d95bf1520b54d71ac9a25b373db5032)](https://www.codacy.com/app/michael-ruocco/wso2-car-deployer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/wso2-car-deployer&amp;utm_campaign=Badge_Grade)
 
 
@@ -19,7 +18,7 @@ gradle you would do this by adding the following to your build.gradle file:
 
 ```
 dependencies {
-    classpath 'com.github.michaelruocco:wso2-car-deployer:1.0.0'
+    compile group: 'com.github.michaelruocco', name: 'wso2-car-deployer', version: '1.0.0'
 }
 ```
 
@@ -227,3 +226,11 @@ If you would rather not mess around with your default trust store then it
 is recommended you use the first approach of overriding the javax.net.ssl.trustStore
 system property as it will only take effect when you are running the tests.
 
+## Checking dependencies
+
+You can check the current dependencies used by the project to see whether
+or not they are currently up to date by running the following command:
+
+```
+gradlew dependencyUpdates
+```
