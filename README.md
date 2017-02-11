@@ -116,15 +116,6 @@ retriableDeploymentChecker.isDeployed(file);
 retriableDeploymentChecker.isUndeployed(file);
 ```
 
-## Checking dependencies
-
-You can check the current dependencies used by the project to see whether
-or not they are currently up to date by running the following command:
-
-```
-gradlew dependencyUpdates
-```
-
 ## Running the tests
 
 This project is covered by both unit tests and integration tests. The
@@ -140,12 +131,6 @@ can be run independently.
 To run just the unit tests you can run the command:
 
 ```
-gradlew clean test
-```
-
-or
-
-```
 gradlew clean build -x integrationTest
 ```
 
@@ -157,24 +142,12 @@ daemon running on your machine for them to work.
 To run just the integration tests you can run the command:
 
 ```
-gradlew clean integrationTest
-```
-
-or
-
-```
 gradlew clean build -x test
 ```
 
 ### Running all the tests
 
 Finally to run all the integration tests you can run the command:
-
-```
-gradlew clean test integrationTest
-```
-
-or
 
 ```
 gradlew clean build
@@ -193,7 +166,7 @@ argument to point at the truststore provided in the project at:
 For example:
 
 ```
--Djavax.net.ssl.trustStore=/Users/michaelruocco/git/personal/wso2/car-deployer/truststore/cacerts
+-Djavax.net.ssl.trustStore=/Users/michaelruocco/git/github/wso2-car-deployer/truststore/cacerts
 ```
 
 Another option would be to install the certificate provided at:
