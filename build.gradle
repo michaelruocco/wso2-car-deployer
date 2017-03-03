@@ -115,7 +115,7 @@ uploadArchives {
                 description 'Library to abstract deploying car files into WSO2'
                 groupId 'com.github.michaelruocco'
                 artifactId 'wso2-car-deployer'
-                version '1.0.0'
+                version '1.0.1'
                 url 'https://github.com/michaelruocco/wso2-car-deployer'
 
                 developers {
