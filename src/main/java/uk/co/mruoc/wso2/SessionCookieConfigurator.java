@@ -3,14 +3,14 @@ package uk.co.mruoc.wso2;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.client.Stub;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING;
 
 public class SessionCookieConfigurator {
 
-    private static final Logger LOG = LogManager.getLogger(SessionCookieConfigurator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final String cookie;
 

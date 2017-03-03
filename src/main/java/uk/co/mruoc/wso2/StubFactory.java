@@ -1,8 +1,8 @@
 package uk.co.mruoc.wso2;
 
 import org.apache.axis2.client.Stub;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminStub;
 import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
 import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub;
@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 
 public class StubFactory {
 
-    private static final Logger LOG = LogManager.getLogger(StubFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final SessionCookieExtractor sessionCookieExtractor = new SessionCookieExtractor();
     private final Authenticator authenticator;

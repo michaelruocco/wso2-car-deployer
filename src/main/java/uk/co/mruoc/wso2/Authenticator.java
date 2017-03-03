@@ -1,7 +1,7 @@
 package uk.co.mruoc.wso2;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.carbon.authenticator.stub.AuthenticationAdmin;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 
 public class Authenticator {
 
-    private static final Logger LOG = LogManager.getLogger(Authenticator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final String host;
     private final String username;

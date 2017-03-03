@@ -1,7 +1,7 @@
 package uk.co.mruoc.wso2;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAppUploaderStub;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import static org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.C
 
 public class CarDeployer {
 
-    private static final Logger LOG = LogManager.getLogger(CarDeployer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final UploadedFileItemConverter uploadedFileItemConverter;
     private final CarbonAppUploaderStub carbonAppUploader;

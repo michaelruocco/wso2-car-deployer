@@ -1,14 +1,14 @@
 package uk.co.mruoc.wso2;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
 
 import java.io.File;
 
 public class RetriableDeploymentChecker {
 
-    private static final Logger LOG = LogManager.getLogger(RetriableDeploymentChecker.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private static final int DEFAULT_TIMEOUT = 20000;
     private static final int DELAY = 1000;

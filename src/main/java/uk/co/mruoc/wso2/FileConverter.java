@@ -1,7 +1,7 @@
 package uk.co.mruoc.wso2;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
 import org.wso2.carbon.application.mgt.stub.types.carbon.ApplicationMetadata;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class FileConverter {
 
-    private static final Logger LOG = LogManager.getLogger(FileConverter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final CarInfoExtractor carInfoExtractor;
     private final ApplicationAdmin stub;

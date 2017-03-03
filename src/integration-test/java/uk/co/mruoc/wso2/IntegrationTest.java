@@ -1,5 +1,6 @@
 package uk.co.mruoc.wso2;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testcontainers.containers.GenericContainer;
@@ -11,20 +12,25 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class IntegrationTest {
 
+    private static final String DOCKER_IMAGE = "michaelruocco/wso2esb:4.9.0";
+    private static final String URL = "https://%s:%d/";
     private static final int PORT = 9443;
-    private static final int CONTAINER_START_TIMEOUT = 60000;
 
     private final File carFile = new File("test/json-validator-mediator-config-local-1.0.0-SNAPSHOT.car");
-    private final Wso2ContainerStartupChecker startupChecker = new Wso2ContainerStartupChecker(CONTAINER_START_TIMEOUT);
+    private final StartupCheckLogConsumer logConsumer = new Wso2StartupCheckLogConsumer();
 
     @Rule
-    public final GenericContainer container = new Wso2Container("michaelruocco/wso2esb:4.9.0")
+    public final GenericContainer container = new GenericContainer(DOCKER_IMAGE)
             .withExposedPorts(PORT)
-            .withLogConsumer(startupChecker);
+            .withLogConsumer(logConsumer);
+
+    @Before
+    public void setUp() {
+        logConsumer.waitForStartupMessageInLog();
+    }
 
     @Test
     public void deploymentCheckerShouldReturnFalseIfCarIsNotDeployed() {
-        startupChecker.waitForContainerToStart();
         RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(createStubFactory());
 
         boolean deployed = deploymentChecker.isDeployed(carFile);
@@ -34,8 +40,6 @@ public class IntegrationTest {
 
     @Test
     public void shouldDeployCarFile() {
-        startupChecker.waitForContainerToStart();
-
         StubFactory stubFactory = createStubFactory();
         CarDeployer carDeployer = new CarDeployer(stubFactory);
         RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(stubFactory);
@@ -48,8 +52,6 @@ public class IntegrationTest {
 
     @Test
     public void shouldUndeployCarFile() {
-        startupChecker.waitForContainerToStart();
-
         StubFactory stubFactory = createStubFactory();
         CarDeployer deployer = new CarDeployer(stubFactory);
         RetriableDeploymentChecker deploymentChecker = new RetriableDeploymentChecker(stubFactory);
@@ -65,8 +67,6 @@ public class IntegrationTest {
 
     @Test(expected = UndeployCarFailedException.class)
     public void undeployShouldThrowExceptionIfCarIsNotDeployed() {
-        startupChecker.waitForContainerToStart();
-
         StubFactory stubFactory = createStubFactory();
         CarUndeployer undeployer = new CarUndeployer(stubFactory);
         undeployer.undeploy(carFile);
@@ -83,7 +83,7 @@ public class IntegrationTest {
     }
 
     private String createContainerUrl() {
-        return "https://" + container.getContainerIpAddress() + ":" + PORT + "/";
+        return String.format(URL, container.getContainerIpAddress(), container.getMappedPort(PORT));
     }
 
 }

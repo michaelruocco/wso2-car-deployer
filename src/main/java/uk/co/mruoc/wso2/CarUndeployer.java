@@ -1,7 +1,7 @@
 package uk.co.mruoc.wso2;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdmin;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
 
@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 
 public class CarUndeployer {
 
-    private static final Logger LOG = LogManager.getLogger(CarUndeployer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Authenticator.class);
 
     private final CarInfoExtractor carInfoExtractor;
     private final ApplicationAdmin applicationAdmin;
