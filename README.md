@@ -2,9 +2,8 @@
 
 [![Build Status](https://travis-ci.org/michaelruocco/wso2-car-deployer.svg?branch=master)](https://travis-ci.org/michaelruocco/wso2-car-deployer)
 [![Coverage Status](https://coveralls.io/repos/github/michaelruocco/wso2-car-deployer/badge.svg?branch=master)](https://coveralls.io/github/michaelruocco/wso2-car-deployer?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d95bf1520b54d71ac9a25b373db5032)](https://www.codacy.com/app/michael-ruocco/wso2-car-deployer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/wso2-car-deployer&amp;utm_campaign=Badge_Grade)
-
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.michaelruocco/wso2-car-deployer)
 
 This library provides an abstraction layer to try and make it easy to
 programatically deploy and undeploy car files into WSO2 components using
