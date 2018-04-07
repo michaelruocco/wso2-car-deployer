@@ -3,10 +3,7 @@ package uk.co.mruoc.wso2;
 import org.junit.Test;
 
 import java.io.File;
-
-import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
-import static com.googlecode.catchexception.apis.BDDCatchException.when;
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class CarInfoExtractorTest {
@@ -30,9 +27,9 @@ public class CarInfoExtractorTest {
     public void shouldThrowExceptionIfCannotLoadFile() {
         String expectedMessage = "could not extract artifacts.xml from car " + nonExistentCar.getAbsolutePath();
 
-        when(extractor).extract(nonExistentCar);
+        Throwable thrown = catchThrowable(() -> extractor.extract(nonExistentCar));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(InvalidCarException.class)
                 .hasMessage(expectedMessage);
     }
@@ -41,9 +38,9 @@ public class CarInfoExtractorTest {
     public void shouldThrowExceptionIfCarDoesNotHaveArtifactsXml() {
         String expectedMessage = noArtifactsXmlCar.getAbsolutePath() + " does not contain an artifacts.xml file";
 
-        when(extractor).extract(noArtifactsXmlCar);
+        Throwable thrown = catchThrowable(() -> extractor.extract(noArtifactsXmlCar));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(InvalidCarException.class)
                 .hasMessage(expectedMessage);
     }
@@ -52,9 +49,9 @@ public class CarInfoExtractorTest {
     public void shouldThrowExceptionIfArtifactsXmlIsInvalid() {
         String expectedMessage = "cannot parse xml: invalidXml";
 
-        when(extractor).extract(invalidArtifactsXmlCar);
+        Throwable thrown = catchThrowable(() -> extractor.extract(invalidArtifactsXmlCar));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(InvalidCarException.class)
                 .hasMessage(expectedMessage);
     }

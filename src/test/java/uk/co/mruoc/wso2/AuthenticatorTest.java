@@ -7,9 +7,7 @@ import uk.co.mruoc.wso2.Authenticator.AuthenticatorBuilder;
 
 import java.rmi.RemoteException;
 
-import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
-import static com.googlecode.catchexception.apis.BDDCatchException.when;
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -50,9 +48,9 @@ public class AuthenticatorTest {
     public void shouldThrowExceptionIfAuthenticationFailsWithRemoteException() throws RemoteException, LoginAuthenticationExceptionException {
         given(stub.login(USERNAME, PASSWORD, HOST)).willThrow(new RemoteException());
 
-        when(authenticator).authenticate(stub);
+        Throwable thrown = catchThrowable(() -> authenticator.authenticate(stub));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(AuthenticationFailedException.class)
                 .hasCauseInstanceOf(RemoteException.class)
                 .hasMessage(expectedExceptionMessage());
@@ -62,9 +60,9 @@ public class AuthenticatorTest {
     public void shouldThrowExceptionIfAuthenticationFailsWithLoginException() throws RemoteException, LoginAuthenticationExceptionException {
         given(stub.login(USERNAME, PASSWORD, HOST)).willThrow(new LoginAuthenticationExceptionException());
 
-        when(authenticator).authenticate(stub);
+        Throwable thrown = catchThrowable(() -> authenticator.authenticate(stub));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(AuthenticationFailedException.class)
                 .hasCauseInstanceOf(LoginAuthenticationExceptionException.class)
                 .hasMessage(expectedExceptionMessage());

@@ -7,9 +7,8 @@ import org.wso2.developerstudio.eclipse.carbonserver.base.capp.uploader.CarbonAp
 import java.io.File;
 import java.rmi.RemoteException;
 
-import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
-import static com.googlecode.catchexception.apis.BDDCatchException.when;
-import static org.assertj.core.api.Java6BDDAssertions.then;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
@@ -38,9 +37,9 @@ public class CarDeployerTest {
         given(converter.toUploadedFileItem(file)).willReturn(items);
         willThrow(new RemoteException()).given(stub).uploadApp(items);
 
-        when(deployer).deploy(file);
+        Throwable thrown = catchThrowable(() -> deployer.deploy(file));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(DeployCarFailedException.class)
                 .hasCauseInstanceOf(RemoteException.class);
     }

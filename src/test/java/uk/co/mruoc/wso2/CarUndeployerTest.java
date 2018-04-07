@@ -7,9 +7,8 @@ import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
 import java.io.File;
 import java.rmi.RemoteException;
 
-import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
-import static com.googlecode.catchexception.apis.BDDCatchException.when;
-import static org.assertj.core.api.Java6BDDAssertions.then;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
@@ -42,9 +41,9 @@ public class CarUndeployerTest {
         given(carInfo.getFullName()).willReturn(FULL_NAME);
         willThrow(new RemoteException()).given(applicationAdmin).deleteApplication(FULL_NAME);
 
-        when(undeployer).undeploy(file);
+        Throwable thrown = catchThrowable(() -> undeployer.undeploy(file));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(UndeployCarFailedException.class)
                 .hasCauseInstanceOf(RemoteException.class);
     }
@@ -55,9 +54,9 @@ public class CarUndeployerTest {
         given(carInfo.getFullName()).willReturn(FULL_NAME);
         willThrow(new ApplicationAdminExceptionException()).given(applicationAdmin).deleteApplication(FULL_NAME);
 
-        when(undeployer).undeploy(file);
+        Throwable thrown = catchThrowable(() -> undeployer.undeploy(file));
 
-        then(caughtException())
+        assertThat(thrown)
                 .isInstanceOf(UndeployCarFailedException.class)
                 .hasCauseInstanceOf(ApplicationAdminExceptionException.class);
     }
